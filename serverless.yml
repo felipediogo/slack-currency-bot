@@ -1,0 +1,56 @@
+service: forex-bot
+
+frameworkVersion: "<=1.6.1"
+
+custom:
+  namespace: ${self:service}-${self:custom.stage}
+  stage: ${opt:stage, self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: us-east-1
+  environment:
+    CLIENT_ID: '186567488401.196992523366'
+    CLIENT_SECRET: ffa7eb1f6bc5e7c0ccf236da7e08e5ce
+    VERIFICATION_TOKEN: 7i6EH68v6wutB2yzwl8pmUUF
+    NAMESPACE: ${self:custom.namespace}
+    TEAMS_TABLE: ${self:custom.namespace}-teams
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:provider.environment.TEAMS_TABLE}
+functions:
+  hello:
+    handler: handlers.hello
+  install:
+    handler: handlers.install
+    events:
+      - http:
+          path: install
+          method: get
+  events:
+    handler: handlers.events
+    events:
+      - http:
+          path: events
+          method: post
+
+resources:
+  Resources:
+    TeamsDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TEAMS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: team_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: team_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
