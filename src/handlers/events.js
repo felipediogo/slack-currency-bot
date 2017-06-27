@@ -31,7 +31,7 @@ const getTeam = (event) => {
   };
   console.log(`dynamodb get -> ${params}`);
   return dynamodb.get(params).promise()
-    .then(data => Object.assign(event, {team: data.Item}));
+    .then(data => Object.assign(event, { team: data.Item }));
 };
 
 const isBotMentioned = (botUserId, message) => new RegExp(`^<@${botUserId}>.*$`).test(message);
@@ -48,6 +48,7 @@ const checkForMention = (event) => {
 
 const actionName = () => `${process.env.NAMESPACE}-action`;
 const invokeAction = (event) => {
+  if (!event) { return null; }
   console.log(`Invoking function -> ${actionName}, with ${event}`);
   return lambda.invoke({
     FunctionName: actionName,
