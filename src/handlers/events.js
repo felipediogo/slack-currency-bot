@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const AWS = require('aws-sdk');
 
-const lambda = AWS.Lambda();
+// const lambda = AWS.Lambda();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const getSlackEvent = event => ({ slack: JSON.parse(event.body) });
@@ -46,17 +46,17 @@ const checkForMention = (event) => {
   }
 };
 
-const actionName = () => `${process.env.NAMESPACE}-action`;
-const invokeAction = (event) => {
-  if (!event) { return null; }
-  console.log(`Invoking function -> ${actionName}, with ${event}`);
-  return lambda.invoke({
-    FunctionName: actionName,
-    InvocationType: 'Event',
-    LogType: 'None',
-    Payload: JSON.stringify(event)
-  });
-};
+// const actionName = () => `${process.env.NAMESPACE}-action`;
+// const invokeAction = (event) => {
+//   if (!event) { return null; }
+//   console.log(`Invoking function -> ${actionName}, with ${event}`);
+//   return lambda.invoke({
+//     FunctionName: actionName,
+//     InvocationType: 'Event',
+//     LogType: 'None',
+//     Payload: JSON.stringify(event)
+//   });
+// };
 
 module.exports.handle = (event, context, callback) =>
   Promise.resolve(event)
@@ -65,5 +65,5 @@ module.exports.handle = (event, context, callback) =>
     .then(verifyToken)
     .then(getTeam)
     .then(checkForMention)
-    .then(invokeAction)
+    // .then(invokeAction)
     .catch(callback);
