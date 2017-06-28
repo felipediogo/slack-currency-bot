@@ -2,6 +2,7 @@
 
 const install = require('./src/handlers/install');
 const events = require('./src/handlers/events');
+const actions = require('./src/actions/currencyAction');
 
 module.exports.hello = (event, context, callback) => {
   const response = {
@@ -17,3 +18,5 @@ module.exports.hello = (event, context, callback) => {
 module.exports.install = (event, context, callback) => install.handle(event, context, callback);
 
 module.exports.events = (event, context, callback) => events.handle(event, context, callback);
+
+module.exports.actions = (event, context, callback) => actions.handle(event, context, callback);

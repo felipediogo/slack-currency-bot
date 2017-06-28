@@ -23,7 +23,14 @@ provider:
         - dynamodb:PutItem
       Resource:
         - arn:aws:dynamodb:*:*:table/${self:provider.environment.TEAMS_TABLE}
+    - Effect: Allow
+      Action:
+        - lambda:invokeFunction
+      Resource:
+        - arn:aws:lambda:*:*:function:${self:custom.namespace}-actions
 functions:
+  actions:
+    handler: handlers.actions
   hello:
     handler: handlers.hello
   install:
