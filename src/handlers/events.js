@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
 const AWS = require('aws-sdk');
 
+<<<<<<< HEAD
 const lambda = new AWS.Lambda();
+=======
+// const lambda = AWS.Lambda();
+>>>>>>> a05f653dcb0e9baa10946c1e49414fc164a89357
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const getSlackEvent = event => ({ slack: JSON.parse(event.body) });
@@ -31,7 +35,7 @@ const getTeam = (event) => {
   };
   console.log(`dynamodb get -> ${params}`);
   return dynamodb.get(params).promise()
-    .then(data => Object.assign(event, {team: data.Item}));
+    .then(data => Object.assign(event, { team: data.Item }));
 };
 
 const isBotMentioned = (botUserId, message) => new RegExp(`^<@${botUserId}>.*$`).test(message);
@@ -65,5 +69,5 @@ module.exports.handle = (event, context, callback) =>
     .then(verifyToken)
     .then(getTeam)
     .then(checkForMention)
-    .then(invokeAction)
+    // .then(invokeAction)
     .catch(callback);
