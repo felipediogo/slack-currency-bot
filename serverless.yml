@@ -8,7 +8,8 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs4.3
+  stage: dev
   region: us-east-1
   environment:
     CLIENT_ID: '186567488401.196992523366'
@@ -27,25 +28,23 @@ provider:
       Action:
         - lambda:invokeFunction
       Resource:
-        - arn:aws:lambda:us-east-1:741114010666:function:${self:custom.namespace}-actions
+        - arn:aws:lambda:*:*:function:${self:custom.namespace}-actions
 
 functions:
   actions:
     handler: handlers.actions
-  hello:
-    handler: handlers.hello
-  install:
-    handler: handlers.install
-    events:
-      - http:
-          path: install
-          method: get
   events:
     handler: handlers.events
     events:
       - http:
           path: events
           method: post
+  install:
+    handler: handlers.install
+    events:
+      - http:
+          path: install
+          method: get
 
 resources:
   Resources:

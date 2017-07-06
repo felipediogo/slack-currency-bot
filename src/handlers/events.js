@@ -1,11 +1,7 @@
 /* eslint-disable no-console */
 const AWS = require('aws-sdk');
 
-<<<<<<< HEAD
 const lambda = new AWS.Lambda();
-=======
-// const lambda = AWS.Lambda();
->>>>>>> a05f653dcb0e9baa10946c1e49414fc164a89357
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const getSlackEvent = event => ({ slack: JSON.parse(event.body) });
@@ -50,12 +46,12 @@ const checkForMention = (event) => {
   }
 };
 
-const actionName = () => `forex-bot-dev-actions`;
+const actionFunctionName = `${process.env.NAMESPACE}-actions`;
 const invokeAction = (event) => {
   if (!event) return null;
-  console.log(`Invoking ${actionName} with event`, event);
+  console.log(`Invoking ${actionFunctionName} with event`, event);
   return lambda.invoke({
-    FunctionName: actionName,
+    FunctionName: actionFunctionName,
     InvocationType: 'Event',
     LogType: 'None',
     Payload: JSON.stringify(event),
@@ -69,5 +65,5 @@ module.exports.handle = (event, context, callback) =>
     .then(verifyToken)
     .then(getTeam)
     .then(checkForMention)
-    // .then(invokeAction)
+    .then(invokeAction)
     .catch(callback);
