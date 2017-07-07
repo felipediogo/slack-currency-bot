@@ -48,14 +48,16 @@ const errorResponse = (error, callback) => {
   });
 };
 
+const extractCode = ({ queryStringParameters: { code } }) => code ? code : null;
+
 module.exports = {
   handle: (event, context, callback) => {
     console.log(`event -> ${JSON.stringify(event)}`);
     return Promise.resolve(event)
-      .then(requestHandler.getCode) // Get code from event
-      .then(requestToken) // Exchange code for token
-      .then(saveResponse) // Save token to DDB
+      .then(extractCode)
+      .then(requestToken)
+      .then(saveResponse)
       .then(() => successResponse(callback))
       .catch(error => errorResponse(error, callback));
-    }
+  }
 };
