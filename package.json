@@ -1,0 +1,24 @@
+{
+  "name": "slack-currency-bot",
+  "version": "1.0.0",
+  "description": "currency slack bot",
+  "main": "handlers.js",
+  "dependencies": {
+    "node-fetch": "^1.7.1",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrholeechit/slack-currency-bot.git"
+  },
+  "author": "mrholeechit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrholeechit/slack-currency-bot/issues"
+  },
+  "homepage": "https://github.com/mrholeechit/slack-currency-bot#readme"
+}
